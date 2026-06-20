@@ -25,8 +25,15 @@
         .nav-links a { text-decoration: none; color: var(--primary); font-weight: bold; }
         .menu-btn { display: none; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--primary); }
         
-        /* Hero Section */
-        .hero { background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover; color: #fff; text-align: center; padding: 100px 5%; }
+        /* Hero Section Slider */
+        .hero { position: relative; color: #fff; text-align: center; padding: 100px 5%; overflow: hidden; }
+        .slider-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; opacity: 0; animation: fade 15s infinite; }
+        .slider-bg::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.7); }
+        .bg1 { background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); animation-delay: 0s; }
+        .bg2 { background-image: url('https://images.unsplash.com/photo-1589939705384-5185137a7f0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); animation-delay: 5s; }
+        .bg3 { background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); animation-delay: 10s; }
+        @keyframes fade { 0% { opacity: 1; transform: scale(1); } 25% { opacity: 1; transform: scale(1.05); } 33% { opacity: 0; transform: scale(1.06); } 92% { opacity: 0; transform: scale(1); } 100% { opacity: 1; transform: scale(1); } }
+        .hero-content { position: relative; z-index: 2; }
         .hero h1 { font-size: 36px; margin-bottom: 20px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .hero p { font-size: 18px; margin-bottom: 40px; }
         .btn-cta { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 15px 40px; font-size: 18px; font-weight: bold; border-radius: 5px; transition: background 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -111,9 +118,14 @@
     <a href="tel:049-243-6449" class="mobile-cta">📞 電話で無料相談</a>
 
     <section class="hero">
-        <h1>川越市で選ばれる確かな技術。<br>塗装工のことなら田村塗装。</h1>
-        <p>職人直営だからできる「適正価格」と「高品質」をお約束します。<br>地域の皆様の安心と安全を第一に施工いたします。</p>
-        <a href="#contact" class="btn-cta">無料お見積り・お問い合わせ</a>
+        <div class="slider-bg bg1"></div>
+        <div class="slider-bg bg2"></div>
+        <div class="slider-bg bg3"></div>
+        <div class="hero-content">
+            <h1>川越市で選ばれる確かな技術。<br>塗装工のことなら田村塗装。</h1>
+            <p>職人直営だからできる「適正価格」と「高品質」をお約束します。<br>地域の皆様の安心と安全を第一に施工いたします。</p>
+            <a href="#contact" class="btn-cta">無料お見積り・お問い合わせ</a>
+        </div>
     </section>
 
     <section class="trust" id="trust">
