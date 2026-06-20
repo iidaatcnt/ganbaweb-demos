@@ -178,7 +178,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <p>【営業時間】 9:00 〜 18:00（日曜定休）</p>
         
         <div class="map-container">
-            <iframe src="https://maps.google.com/maps?q={encoded_address}&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="https://maps.google.com/maps?q={encoded_map_query}&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         <a href="{map_url}" target="_blank" class="map-btn">📍 Googleマップで見る</a>
     </section>
@@ -218,7 +218,8 @@ with open(csv_file, 'r', encoding='utf-8-sig') as f:
         map_url = row.get('GoogleマップURL', '').strip()
         
         city = extract_city(address)
-        encoded_address = urllib.parse.quote(address)
+        map_query = f"{company_name} {address}"
+        encoded_map_query = urllib.parse.quote(map_query)
         
         if not phone:
             continue
@@ -229,7 +230,7 @@ with open(csv_file, 'r', encoding='utf-8-sig') as f:
             address=address,
             category=category,
             city=city,
-            encoded_address=encoded_address,
+            encoded_map_query=encoded_map_query,
             map_url=map_url
         )
         
