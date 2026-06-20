@@ -14,6 +14,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{city}で{category}の専門業者をお探しなら{company_name}へ。職人直営の適正価格と高品質な施工をお約束します。ご相談・お見積り無料。">
     <title>{company_name} | {city}の{category}・専門工事</title>
     <style>
         :root {{
@@ -185,6 +186,7 @@ def extract_city(address):
     return "埼玉県"
 
 count = 0
+sitemap_urls = []
 with open(csv_file, 'r', encoding='utf-8-sig') as f:
     reader = csv.DictReader(f)
     for row in reader:
@@ -213,10 +215,22 @@ with open(csv_file, 'r', encoding='utf-8-sig') as f:
         # SMS用のURLをすっきりさせるため、ファイル名は電話番号のみにする
         safe_phone = phone.replace('-', '')
         safe_filename = f"{safe_phone}.html"
+        sitemap_urls.append(f"https://ganbaweb.com/{safe_phone}")
         filepath = os.path.join(output_dir, safe_filename)
         
         with open(filepath, 'w', encoding='utf-8') as out_f:
             out_f.write(html_content)
         count += 1
 
-print(f"✅ 成功: {output_dir} フォルダに {count} 件のデモサイトを自動生成しました！")
+sitemap_content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+for url in sitemap_urls:
+    sitemap_content += f"  <url>\n    <loc>{url}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
+sitemap_content += "</urlset>"
+
+with open(os.path.join(output_dir, 'sitemap.xml'), 'w', encoding='utf-8') as f:
+    f.write(sitemap_content)
+
+with open(os.path.join(output_dir, 'robots.txt'), 'w', encoding='utf-8') as f:
+    f.write("User-agent: *\nAllow: /\nSitemap: https://ganbaweb.com/sitemap.xml\n")
+
+print(f"✅ 成功: {output_dir} フォルダに {count} 件のデモサイトとSEO用ファイル（sitemap.xml, robots.txt）を自動生成しました！")
