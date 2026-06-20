@@ -1,6 +1,7 @@
 import csv
 import os
 import re
+import urllib.parse
 
 csv_file = "saitama6_result.csv"
 output_dir = "ganbaweb_demos"
@@ -60,6 +61,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .contact h2 {{ font-size: 28px; color: var(--primary); margin-bottom: 20px; }}
         .contact p {{ font-size: 18px; margin-bottom: 30px; }}
         .tel-large {{ font-size: 36px; font-weight: bold; color: var(--secondary); margin-bottom: 20px; display: block; text-decoration: none; }}
+        .map-container {{ margin: 30px auto; max-width: 800px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
+        .map-btn {{ display: inline-block; margin-top: 10px; padding: 10px 20px; background: #4285F4; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }}
 
         /* Footer */
         footer {{ background: #1A252F; color: #fff; text-align: center; padding: 30px 5%; font-size: 14px; }}
@@ -154,6 +157,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <p>些細なご相談からでも喜んで対応いたします。<br>ご相談・お見積りは無料です。</p>
         <a href="tel:{phone}" class="tel-large">📞 {phone}</a>
         <p>【営業時間】 9:00 〜 18:00（日曜定休）</p>
+        
+        <div class="map-container">
+            <iframe src="https://maps.google.com/maps?q={encoded_address}&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+        <a href="{map_url}" target="_blank" class="map-btn">📍 Googleマップで見る</a>
     </section>
 
     <footer>
@@ -184,8 +192,10 @@ with open(csv_file, 'r', encoding='utf-8-sig') as f:
         phone = row.get('電話番号', '').strip()
         address = row.get('住所', '').strip()
         category = row.get('業種', '建設・工事').strip()
+        map_url = row.get('GoogleマップURL', '').strip()
         
         city = extract_city(address)
+        encoded_address = urllib.parse.quote(address)
         
         if not phone:
             continue
@@ -195,7 +205,9 @@ with open(csv_file, 'r', encoding='utf-8-sig') as f:
             phone=phone,
             address=address,
             category=category,
-            city=city
+            city=city,
+            encoded_address=encoded_address,
+            map_url=map_url
         )
         
         # SMS用のURLをすっきりさせるため、ファイル名は電話番号のみにする
