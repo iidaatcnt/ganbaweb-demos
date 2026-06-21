@@ -53,8 +53,15 @@
             <p>※初期費用 0円</p>
         </div>
 
-        <!-- 決済ボタン (Stripe Payment Linkをここに設定する) -->
-        <a href="#" class="btn-stripe" id="checkout-btn">💳 クレジットカードで今すぐ始める</a>
+        <!-- Stripe決済ボタン -->
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+            <stripe-buy-button
+              buy-button-id="buy_btn_1Tkk24IVF6CWoYF0FP90EPJp"
+              publishable-key="pk_live_51SxI3uIVF6CWoYF0DaekEjLT5XFoGbLRLZDqWwtrMhrwMbYI80B9q9u10n4LOOrUn39KQp7n8xwnyg7GzDclCIPa00KYeGj9eB"
+            >
+            </stripe-buy-button>
+        </div>
         <div class="btn-subtext">※安全なStripeの決済画面に移動します。Apple Pay / Google Payにも対応。</div>
     </div>
     
